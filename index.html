@@ -1,10 +1,18 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Agenda Docente Anhanguera · 26.2</title>
 <meta name="description" content="Cursos, disciplinas, aulas e materiais do semestre 26.2. Consulta por data baseada na planilha acadêmica.">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23ff5a00'/%3E%3Cpath d='M10 10h9v22h-9zm11 0h9v22h-9z' fill='%23ffffff'/%3E%3C/svg%3E">
+<meta name="theme-color" content="#ff5a00">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Agenda Docente">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+<script src="pwa.js?v=20261027-pwa1" defer></script>
+<link rel="icon" type="image/svg+xml" href="icons/icon.svg">
 <style>
 :root{--navy:#112540;--navy2:#1a3658;--teal:#007f73;--mint:#b5f4e7;--bg:#f3f6fa;--white:#fff;--ink:#142941;--muted:#53647a;--line:#dce3ed;--blue:#225bd3;--amber:#8b5709;--amberbg:#fff4db;--red:#ab3542;--radius:14px;font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--ink);background:var(--bg);font-size:16px;font-synthesis:none}
 *{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button,a,input,select,summary{-webkit-tap-highlight-color:transparent}button,select,summary{cursor:pointer}button{color:inherit}button:disabled{cursor:default;opacity:.5}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #20b4a3;outline-offset:3px}input:focus,select:focus{outline:2px solid #27a99a;outline-offset:1px}a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}p{line-height:1.6}h1,h2,h3,h4,p{margin-top:0}h1{font-size:clamp(1.6rem,2.35vw,2.15rem);line-height:1.2;letter-spacing:-.035em}h2{font-size:1.3rem;letter-spacing:-.02em}h3{font-size:1.1rem;line-height:1.4}small,.small{font-size:.875rem}svg{width:20px;height:20px;flex-shrink:0;vertical-align:middle}button svg,a svg{pointer-events:none}.muted{color:var(--muted)}.eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.75rem;font-weight:750}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}[hidden]{display:none!important}
@@ -33,7 +41,7 @@ textarea{font:inherit;color:inherit;line-height:1.55;resize:vertical;width:100%;
 @media print{.calendar-navigation,.calendarPickCourse,.lesson-actions,.prepare-actions,.ai-options,.ai-material,.ai-controls,.ai-result-actions{display:none!important}.calendar-layout{break-inside:avoid}.calendar-agenda{background:white}}
 
 </style>
-<link rel="stylesheet" href="theme.css?v=20261027-2">
+<link rel="stylesheet" href="theme.css?v=20261027-pwa1">
 </head>
 <body>
 <div class="loading-screen" id="pageLoading" hidden></div>
@@ -59,10 +67,19 @@ textarea{font:inherit;color:inherit;line-height:1.55;resize:vertical;width:100%;
 </aside>
 <main class="workspace">
  <header class="topbar"><span class="crumb">PLANEJAMENTO DE AULAS <span class="tag teal">26.2</span></span><div class="top-actions">
+ <button class="btn pwa-install-control" id="installAppBtn" data-install-app title="Instalar Agenda Docente" aria-label="Instalar aplicativo"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="label">Instalar aplicativo</span></button>
  <button class="btn" id="importBtn" title="Carregar uma nova planilha"><svg><use href="#i-upload"/></svg><span class="label">Atualizar <span class="optional-label">planilha</span></span></button>
  <button class="btn" id="syncBtn" title="Configurar e sincronizar automaticamente com o Google Drive"><span class="sync-dot" id="syncDot" aria-hidden="true"></span><span class="label sync-label-text">Drive automático</span></button>
  <a class="btn" href="https://drive.google.com/drive/folders/1AH2zxAArjv6F5JjvbEAruZTq2RpR-vbb" target="_blank" rel="noopener noreferrer" title="Abrir pasta de materiais"><svg><use href="#i-folder"/></svg><span class="label">Drive</span></a>
  <button class="btn" id="helpBtn" title="Como usar e fontes" aria-label="Como usar e fontes"><svg><use href="#i-info"/></svg></button></div></header>
+ <section class="install-banner" id="installBanner" aria-labelledby="installBannerTitle" hidden>
+  <img src="icons/icon-192.png" width="52" height="52" alt="" class="install-banner-icon">
+  <div class="install-banner-copy"><h2 id="installBannerTitle">Sua agenda como aplicativo</h2><p>Adicione à tela inicial do Android ou iPhone. Depois do primeiro acesso, consulte datas e catálogo sem internet.</p></div>
+  <button class="btn btn-primary" data-install-app>Instalar aplicativo</button>
+  <button class="close" id="dismissInstallBanner" aria-label="Dispensar convite de instalação"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+ </section>
+ <div class="pwa-notice" id="offlineNotice" role="status" hidden>Você está sem internet. Consulte a agenda e o catálogo salvos neste aparelho. Abrir PDFs, acessar o Drive e sincronizar exige conexão.</div>
+ <div class="pwa-update" id="appUpdateBanner" role="status" hidden><span>Uma nova versão da agenda está pronta.</span><button class="btn" id="updateAppBtn">Atualizar aplicativo</button></div>
  <div class="heading"><div><p id="currentDateLabel" class="today-label"></p><h1 id="courseTitle">Prepare sua próxima aula.</h1><p id="courseSubtitle">Selecione o curso para consultar a programação.</p></div><div class="date-control"><label for="referenceDate">Data de referência · São Paulo</label><div class="date-line"><input type="date" id="referenceDate" aria-label="Data de referência"><button class="btn" id="todayBtn">Hoje</button></div></div></div>
  <div id="calendarSection"></div><div id="mainContent"></div>
  <footer class="statusbar"><span id="sourceFooter"></span><span id="driveFooter"></span></footer>
@@ -70,6 +87,16 @@ textarea{font:inherit;color:inherit;line-height:1.55;resize:vertical;width:100%;
 </div>
 <input class="file-input" id="xlsxInput" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
 <dialog id="detailDialog" aria-labelledby="detailTitle"><div id="detailContent"></div></dialog>
+<dialog id="installDialog" aria-labelledby="installTitle">
+ <div class="dialog-header"><div><span class="tag teal">AGENDA NO SEU APARELHO</span><h2 id="installTitle">Instalar Agenda Docente</h2></div><button class="close" data-close="installDialog" aria-label="Fechar instruções de instalação"><svg><use href="#i-x"/></svg></button></div>
+ <div class="dialog-body install-guide">
+  <div class="install-guide-brand"><img src="icons/icon-192.png" width="64" height="64" alt="Ícone da Agenda Docente"><div><strong>Agenda Docente</strong><span>Calendário, disciplinas e materiais</span></div></div>
+  <section data-install-guide="iphone" hidden><h3>No iPhone ou iPad</h3><ol><li>Abra esta agenda no <strong>Safari</strong>.</li><li>Toque em <strong>Compartilhar</strong> e escolha <strong>Adicionar à Tela de Início</strong>.</li><li>Se aparecer, mantenha <strong>Abrir como App</strong> ativado. Toque em <strong>Adicionar</strong>.</li></ol><p>Depois, abra pelo novo ícone da <strong>Agenda Docente</strong> na tela inicial.</p></section>
+  <section data-install-guide="android" hidden><h3>No Android</h3><ol><li>Abra esta agenda no <strong>Google Chrome</strong>.</li><li>Toque no menu <strong>⋮</strong> e escolha <strong>Instalar aplicativo</strong> ou <strong>Adicionar à tela inicial</strong>.</li><li>Confirme a instalação e abra pelo ícone da <strong>Agenda Docente</strong>.</li></ol><p>Se você abriu o link dentro de outro aplicativo, use a opção <strong>Abrir no navegador</strong> primeiro.</p></section>
+  <section data-install-guide="desktop" hidden><h3>No computador</h3><ol><li>Abra a agenda no <strong>Chrome ou Edge</strong>.</li><li>Clique no ícone de instalação ao lado do endereço ou procure <strong>Instalar aplicativo</strong> no menu do navegador.</li><li>Confirme para abrir a agenda em uma janela própria.</li></ol></section>
+  <p class="notice neutral">Depois do primeiro acesso com internet, a agenda e o catálogo ficam disponíveis neste aparelho. PDFs, Google Drive, sincronização e recursos de IA precisam de conexão.</p>
+ </div>
+</dialog>
 <dialog id="helpDialog" aria-labelledby="helpTitle"><div class="dialog-header"><h2 id="helpTitle">Como usar a Agenda Docente</h2><button class="close" data-close="helpDialog" aria-label="Fechar ajuda"><svg><use href="#i-x"/></svg></button></div><div class="dialog-body help-content" id="helpContent"></div></dialog>
 <dialog id="syncDialog" aria-labelledby="syncTitle"><div class="dialog-header"><div><span class="tag teal">GOOGLE DRIVE</span><h2 id="syncTitle" style="margin-top:8px">Sincronização automática</h2><div class="small muted">Atualiza a planilha e o catálogo de materiais quando a pasta do Drive mudar.</div></div><button class="close" data-close="syncDialog" aria-label="Fechar sincronização"><svg><use href="#i-x"/></svg></button></div><div class="dialog-body"><div class="sync-form"><div><label for="syncEndpoint">URL do Web App do Google Apps Script</label><input class="input" id="syncEndpoint" type="url" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off"><p class="small muted" style="margin:7px 0 0">Use o arquivo <b>Code.gs</b> incluído no pacote. A pasta já está configurada com o ID deste projeto.</p></div><div class="sync-row"><div class="sync-check"><input type="checkbox" id="syncEnabled"><label for="syncEnabled" style="margin:0"><b>Sincronizar automaticamente</b><span class="small muted">Ao abrir o site, ao voltar para a aba e no intervalo escolhido.</span></label></div><div><label for="syncInterval">Verificar a cada</label><select id="syncInterval"><option value="5">5 minutos</option><option value="10">10 minutos</option><option value="15">15 minutos</option><option value="30">30 minutos</option><option value="60">60 minutos</option></select></div></div><div id="syncStatusBox" class="sync-status warn">A sincronização ainda não foi configurada. O site continua funcionando normalmente com a base incorporada.</div><div class="modal-actions"><button class="btn btn-teal" id="saveSyncBtn">Salvar configuração</button><button class="btn btn-primary" id="syncNowBtn">Sincronizar agora</button><button class="btn" data-close="syncDialog">Fechar</button></div><details class="source-details"><summary>Como funciona</summary><p class="small muted">O Web App lista recursivamente a pasta do Drive. Se encontrar uma planilha <b>.xlsx</b> cujo nome contenha “BASE DISCIPLINAS”, a versão mais recente passa a atualizar automaticamente cursos e disciplinas. Os demais arquivos atualizam o catálogo de materiais. O site verifica alterações enquanto estiver aberto; não existe atualização em segundo plano com o navegador fechado.</p></details></div></div></dialog>
 

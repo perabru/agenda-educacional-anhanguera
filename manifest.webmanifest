@@ -1,0 +1,20 @@
+{
+  "id": "./",
+  "name": "Agenda Docente Anhanguera",
+  "short_name": "Agenda Docente",
+  "description": "Cursos, disciplinas, calendário de aulas e materiais para preparar seus encontros.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ff5a00",
+  "categories": ["education", "productivity"],
+  "prefer_related_applications": false,
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
