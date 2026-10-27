@@ -19,3 +19,11 @@ Uma nova versão é oferecida pelo botão **Atualizar aplicativo**, sem recarreg
 O projeto é estático e usa caminhos relativos para funcionar no subdiretório do GitHub Pages. Publique todos os arquivos, incluindo `manifest.webmanifest`, `sw.js`, `pwa.js` e `icons/`, por HTTPS. Para testar localmente, use um servidor em `localhost`.
 
 Ao alterar arquivos da interface, incremente `VERSION` em `sw.js` e mantenha os nomes/versões da lista `SHELL` alinhados com os recursos referenciados no HTML.
+
+## Auditoria pública dos materiais · 27/10/2026
+
+A revisão abrange os 209 cursos e as 1.227 disciplinas da base 26.2. Foram acrescentadas 718 referências públicas em repositórios KLS/Colaborar, preservando os 2.660 arquivos do Drive e as 20 referências públicas anteriores. 272 disciplinas passaram a ter material associado.
+
+O relatório `auditoria-materiais.html` permite filtrar por curso, disciplina, novas fontes e últimas disciplinas ainda sem material. Os dados completos estão em `auditoria-materiais.json`. Há 744 disciplinas sem fonte pública verificada vinculada ao catálogo nesta auditoria. Roteiros e versões específicos da turma continuam tendo o AVA/coordenação como referência.
+
+Livros e conteúdos de apoio não geram encontros fictícios. Materiais identificados como versão do professor ficam fora do compartilhamento para alunos. As novas URLs foram conferidas por resposta HTTP e tipo de arquivo; isso não confirma equivalência integral entre uma edição histórica e o plano atual.

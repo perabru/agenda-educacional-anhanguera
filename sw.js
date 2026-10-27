@@ -1,11 +1,11 @@
 'use strict';
-const VERSION = '20261027-pwa1';
+const VERSION = '20261027-catalog2';
 const BASE = new URL(self.registration.scope);
 const PREFIX = 'agenda-anhanguera-' + encodeURIComponent(BASE.pathname) + '-';
 const CACHE = PREFIX + VERSION;
 const SHELL = [
-  'index.html', 'theme.css?v=20261027-pwa1', 'ui.js?v=20261027',
-  'pwa.js?v=20261027-pwa1', 'manifest.webmanifest', 'icons/icon.svg',
+  'index.html', 'auditoria-materiais.html', 'auditoria-materiais.json', 'theme.css?v=20261027-catalog2', 'ui.js?v=20261027',
+  'pwa.js?v=20261027-catalog2', 'manifest.webmanifest', 'icons/icon.svg',
   'icons/icon-192.png', 'icons/icon-512.png', 'icons/icon-maskable-512.png',
   'icons/apple-touch-icon.png'
 ].map(path => new URL(path, BASE).href);
@@ -40,6 +40,8 @@ self.addEventListener('message', event => {
 
 async function networkFirst(request, navigation, clientId) {
   const cache = await caches.open(CACHE);
+  const path = new URL(request.url).pathname;
+  const documentKey = navigation && (path === BASE.pathname || path === new URL(INDEX).pathname) ? INDEX : request;
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 5000);
   try {
@@ -47,14 +49,14 @@ async function networkFirst(request, navigation, clientId) {
     if (!response.ok) throw new Error('Resource unavailable');
     if (navigation) {
       if (!(response.headers.get('content-type') || '').includes('text/html')) return response;
-      await cache.put(INDEX, response.clone());
+      await cache.put(documentKey, response.clone());
       rememberNavigation(clientId, false);
     } else {
       await cache.put(request, response.clone());
     }
     return response;
   } catch (error) {
-    const stored = await cache.match(navigation ? INDEX : request, { ignoreSearch: true });
+    const stored = await cache.match(documentKey, { ignoreSearch: true });
     if (stored) {
       if (navigation) rememberNavigation(clientId, true);
       return stored;
